@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Members</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #3799ef;
+            color: white;
+            padding: 20px 10%;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 10px 5%;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            background: #3799ef;
+            color: white;
+            border-radius: 5px;
+        }
+        .toggle-button {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        .toggle-button div {
+            width: 100%;
+            height: 3px;
+            background: #333;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 10px 0;
+                background-color: #ffffff;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .toggle-button {
+                display: flex;
+            }
+        }
+        .member-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .member-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .member-card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .member-card .info {
+            padding: 15px;
+        }
+        .member-card .info h3 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+            color: #3799ef;
+        }
+        .member-card .info p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+        footer {
+            background: #3799ef;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        footer p {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Meet Our Management Team</h1>
+        <p>The visionaries leading Apollo Hospital to success</p>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <a href="#"><strong>Apollo Hospital</strong></a>
+        </div>
+        <div class="toggle-button" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'aboutus' %}">About Us</a>
+            <a href="{% url 'services' %}">Services</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </nav>
+
+    <!-- Management Members Section -->
+    <div class="member-container">
+        <!-- Member Card -->
+        <div class="member-card">
+            <img src="https://via.placeholder.com/300" alt="Dr. John Doe">
+            <div class="info">
+                <h3>Dr. John Doe</h3>
+                <p>Chairman</p>
+                <p>Visionary leader with over 20 years of experience in healthcare management.</p>
+            </div>
+        </div>
+        <div class="member-card">
+            <img src="https://via.placeholder.com/300" alt="Dr. Jane Smith">
+            <div class="info">
+                <h3>Dr. Jane Smith</h3>
+                <p>CEO</p>
+                <p>Dedicated to improving patient care and advancing healthcare innovations.</p>
+            </div>
+        </div>
+        <div class="member-card">
+            <img src="https://via.placeholder.com/300" alt="Mr. Alex Johnson">
+            <div class="info">
+                <h3>Mr. Alex Johnson</h3>
+                <p>CFO</p>
+                <p>Expert in financial management, ensuring hospital sustainability.</p>
+            </div>
+        </div>
+        <div class="member-card">
+            <img src="https://via.placeholder.com/300" alt="Ms. Emily Davis">
+            <div class="info">
+                <h3>Ms. Emily Davis</h3>
+                <p>Director of Operations</p>
+                <p>Passionate about streamlining hospital processes and efficiency.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Apollo Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

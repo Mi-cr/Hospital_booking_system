@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Approve Doctors{% endblock %}</title>
+    <style>
+        /* Include all previous styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: rgb(241, 244, 248);
+        }
+
+        .horizontal-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3799ef;
+            padding: 1rem 1.5rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 75px;
+        }
+
+        .horizontal-navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .horizontal-navbar a:hover {
+            color: #4CAF50;
+        }
+
+        .toggle-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        .sidebar {
+    width: 250px;
+    background-color: #3799ef;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 75px;
+    left: 0;
+    height: calc(100vh - 75px);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 0; /* Remove extra padding */
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.2rem; /* Reduce padding for less space between items */
+    text-align: left;
+    transition: background-color 0.3s;
+    font-size: 0.95rem; /* Slightly smaller font for better fit */
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        overflow: hidden;
+        transition: width 0.3s ease;
+    }
+
+    .sidebar.active {
+        width: 250px;
+    }
+
+    .sidebar a {
+        padding: 0.6rem 1rem; /* Even smaller padding for small screens */
+    }
+}
+
+
+       
+
+        footer {
+            background-color: #3799ef;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .toggle-btn {
+                display: block;
+            }
+
+            .sidebar {
+                width: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .sidebar.active {
+                width: 250px;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+            background-color: white;
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 10px;
+        }
+
+        table th {
+            background-color: #3799ef;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .approve-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .disapprove-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .action-btns .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+/* Primary (Approve) Button */
+.action-btns .btn-primary {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+
+.action-btns .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue */
+    transform: scale(1.05);
+}
+
+/* Danger (Disapprove) Button */
+.action-btns .btn-danger {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.action-btns .btn-danger:hover {
+    background-color: #b21f2d; /* Darker red */
+    transform: scale(1.05);
+}
+
+/* Add spacing between buttons */
+.action-btns .btn + .btn {
+    margin-left: 10px;
+}
+    </style>
+</head>
+<body>
+    <!-- Horizontal Navbar -->
+    <div class="horizontal-navbar">
+        <div class="logo">
+            <img src="https://brandslogos.com/wp-content/uploads/images/large/apollo-hospitals-logo.png" alt="Apollo Hospital Logo" />
+            <span>Apollo Hospital</span>
+        </div>
+        <button class="toggle-btn" id="toggle-btn" aria-label="Toggle Sidebar">☰</button>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <a href="{% url 'adminhome' %}">Home</a>
+        <a href="{% url 'adddept' %}">Add Department</a>
+        <a href="{% url 'display_departments' %}">View Departments</a>
+        <a href="{% url 'addpatient' %}">Add patients</a>
+
+        <a href="{% url 'doctoraddadmin' %}">Add Doctors</a>
+        <a href="{% url 'view_patients' %}">View Patients</a>
+        <a href="{% url 'view_doctors' %}">View Doctors</a>
+        <a href="{% url 'doctor_list' %}">
+            Approve Doctors {% if pending_doctor_approvals > 0 %}({{ pending_doctor_approvals }}){% endif %}
+        </a>
+        
+        <a href="{% url 'patient_appointments' %}">
+            Approve Booking {% if pending_approvals > 0 %}({{ pending_approvals }}){% endif %}
+        </a>
+         
+        <a href="{% url 'appointment_list' %}">Patients status</a>
+        <a href="{% url 'consulted_patients_view' %}">Consulted patients</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <h1 style="text-align: center;">Approve/Disapprove Doctors</h1>
+        {% for m in messages %}
+                <h2 class="text-center text-danger pt-2" style="color: green;">{{ m }}</h2>
+            {% endfor %}
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Profile Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+            
+                   
+                {% for doctor in doctors %}
+                <tr>
+                    <td>{{ doctor.user.first_name }}</td>
+                    <td>{{ doctor.user.last_name }}</td>
+                    <td>{{ doctor.Contact }}</td>
+                    <td>{{ doctor.Address }}</td>
+                    <td>{{ doctor.Age }}</td>
+                    <td>{{ doctor.user.email }}</td>
+                    <td>{{ doctor.Department.DepatmentName }}</td>
+                    <td>
+                        {% if doctor.Image %}
+                            <img src="{{ doctor.Image.url }}" alt="Profile Picture" class="profile-img">
+                        {% else %}
+                            <img src="path_to_default_image.jpg" alt="Profile Picture" class="profile-img">
+                        {% endif %}
+                    </td>
+                    <td class="action-btns"> 
+                        {% if doctor.user.status == 0 %}
+        <!-- Link to the approve view -->
+        <a href="{% url 'approve_doctor' doctor.id %}" class="btn btn-primary">
+            Approve
+        </a>
+
+        <!-- Link to the disapprove view -->
+        <a href="{% url 'disapprove_doctor' doctor.id %}" 
+           class="btn btn-danger" 
+           onclick="return confirm('Are you sure you want to disapprove this doctor?');">
+            Disapprove
+        </a>
+    {% elif doctor.user.status == 1 %}
+        <!-- Show approved status -->
+        <button class="btn btn-success" disabled>
+            Approved
+        </button>
+    {% else %}
+        <!-- For unexpected statuses -->
+        <button class="btn btn-warning" disabled>
+            Unknown Status
+        </button>
+    {% endif %}
+</td>
+                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="9">No doctors available.</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Apollo Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

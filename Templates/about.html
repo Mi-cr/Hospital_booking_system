@@ -1,0 +1,144 @@
+{% extends 'nav.html' %}
+
+{% block title %}About Apollo Hospital{% endblock %}
+
+{% block content %}
+<style>
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* About Section */
+  .about-section {
+    padding: 40px;
+    background-color: #f4f4f4;
+    text-align: center;
+  }
+
+  .about-section h1 {
+    font-size: 2.5rem;
+    margin-top: 5%;
+    margin-bottom: 30px;
+  }
+
+  .about-section p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+
+  /* Team Section */
+  .team-section {
+    padding: 40px;
+    background-color: #fff;
+    margin-bottom: 60px; /* Add space below the team section */
+  }
+
+  .team-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+  }
+
+  .team-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .team-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    width: calc(33.33% - 20px);
+    transition: transform 0.3s ease;
+  }
+
+  .team-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .team-card img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
+
+  .team-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .team-card p {
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .team-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .team-card {
+      width: 80%;
+    }
+  }
+</style>
+
+<!-- About Section -->
+<div class="about-section">
+  <h1>About Apollo Hospital Management</h1>
+  <p>
+    Apollo Hospital is a leading healthcare provider committed to delivering excellence in medical care.
+    With state-of-the-art facilities and a team of dedicated professionals, we strive to enhance the
+    well-being of our patients.
+  </p>
+</div>
+
+<!-- Team Section -->
+<div class="team-section">
+  <h2>Meet Our Leadership</h2>
+  <div class="team-container">
+    <div class="team-card">
+      <img src="https://png.pngtree.com/thumb_back/fw800/background/20231221/pngtree-women-doctor-on-blur-hospital-background-image_15519145.jpg" alt="Chairman">
+      <h3>Dr. Reka</h3>
+      <p>Chairman</p>
+    </div>
+    <div class="team-card">
+      <img src="https://img.freepik.com/premium-photo/business-woman-business-corporate-people-generative-ai_61243-13442.jpg" alt="Managing Director">
+      <h3>Ms. Suneeta Reddy</h3>
+      <p>Managing Director</p>
+    </div>
+    <div class="team-card">
+      <img src="https://img.freepik.com/premium-photo/asian-businessman-photo-ai-generated_980993-2430.jpg" alt="Executive Director">
+      <h3>Mr. Hariprasad Reddy</h3>
+      <p>Executive Director</p>
+    </div>
+    <div class="team-card">
+      <img src="https://img.freepik.com/premium-photo/photo-men-doctor-generative-ai_911330-1692.jpg" alt="Medical Director">
+      <h3>Dr. Anupam Sibal</h3>
+      <p>Medical Director</p>
+    </div>
+    <div class="team-card">
+      <img src="https://img.freepik.com/premium-photo/generative-ai-middle-aged-businessman-posing-isolated-background_108985-3569.jpg" alt="Chief Technology Officer">
+      <h3>Mr. Rajiv Sharma</h3>
+      <p>Chief Technology Officer</p>
+    </div>
+    <div class="team-card">
+      <img src="https://tse3.mm.bing.net/th?id=OIP.NUvtWUBMaChO6FFYgAf-fQAAAA&pid=Api&P=0&h=180" alt="Chief Financial Officer">
+      <h3>Ms. Priya Krishnan</h3>
+      <p>Chief Financial Officer</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

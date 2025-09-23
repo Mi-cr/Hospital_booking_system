@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Booking System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #3799ef;
+            color: white;
+            padding: 20px 10%;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2rem;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 10px 5%;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            background: #3799ef;
+            color: white;
+            border-radius: 5px;
+        }
+        .toggle-button {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        .toggle-button div {
+            width: 100%;
+            height: 3px;
+            background: #333;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 10px 0;
+                background-color: #ffffff;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .toggle-button {
+                display: flex;
+            }
+        }
+        .hero {
+            background: url('https://wallpaperaccess.com/full/4113244.jpg') no-repeat center center/cover;
+            height: 400px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            font-size: 1.5rem;
+        }
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .carousel-container img {
+            min-width: 100%;
+            height: 400px; /* Corrected the height of the carousel */
+            object-fit: cover;
+        }
+        .departments {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 40px 10%;
+        }
+        .department {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .department h3 {
+            margin-bottom: 10px;
+        }
+        .message {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 40px 10%;
+            background: #f9f9f9;
+        }
+        .message img {
+            width: 40%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .message-text {
+            width: 55%;
+        }
+        .message-text h3 {
+            margin-bottom: 20px;
+        }
+        .message-text p {
+            font-size: 1.1rem;
+        }
+        .center-of-excellence {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 40px 10%;
+    background: #ffffff;
+}
+
+.center-of-excellence .card {
+    background: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.center-of-excellence .card:hover {
+    transform: scale(1.05);
+}
+
+.center-of-excellence .card img {
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.centered-heading {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px; /* Adjust spacing as needed */
+}
+
+@media (max-width: 768px) {
+    .center-of-excellence {
+        grid-template-columns: repeat(1, 1fr); /* Stacks cards in a single column */
+    }
+
+    .centered-heading {
+        font-size: 1.8em; /* Adjust font size for smaller screens */
+    }
+}
+
+        
+        .why-our-hospital {
+            background: #3799ef;
+            color: white;
+            padding: 40px 10%;
+            text-align: center;
+        }
+        .why-our-hospital h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .why-our-hospital ul {
+            list-style: none;
+            padding: 0;
+        }
+        .why-our-hospital li {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        .footer {
+            background: #3799ef;;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .footer p {
+            font-size: 1rem;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            .departments .department,
+            .center-of-excellence .card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .message img {
+                width: 80%;
+            }
+            .message-text {
+                width: 80%;
+            }
+        }
+        .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    border-radius: 5px;
+}
+
+.logo span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Hospital</h1>
+        <p>Your health is our priority</p>
+    </header>
+
+    <nav>
+        <div class="logo">
+            <img src="https://brandslogos.com/wp-content/uploads/images/large/apollo-hospitals-logo.png" alt="Apollo Hospital Logo" />
+            <span>Apollo Hospital</span>
+        </div>
+        <div class="toggle-button" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="#departments">Departments</a>
+            
+            <a href="#center-of-excellence">Center of Excellence</a>
+            <a href="{% url 'loginpage' %}">Login</a>
+            <a href="{% url 'patientsignup' %}">Patient register</a>
+            <a href="{% url 'doctorsignup' %}">Doctor register</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+    </nav>
+
+    
+    <!-- Hero Section -->
+    <div class="hero">
+        <h2>Get Well Soon with Our Top Services</h2>
+        <p>Book an appointment and take the first step towards better health</p>
+    </div>
+
+    <!-- Carousel Section -->
+    
+
+    <!-- Why Our Hospital is Number One Section -->
+    <section id="why-our-hospital" class="why-our-hospital">
+        <h2>Why Our Hospital is Number One</h2>
+        <ul>
+            <li>We provide state-of-the-art medical facilities and equipment.</li>
+            <li>Our doctors are highly skilled and internationally trained.</li>
+            <li>We offer 24/7 emergency care for critical situations.</li>
+            <li>We have a strong focus on patient care and comfort.</li>
+            <li>Our hospital is equipped with the latest technology in diagnostics and treatment.</li>
+            <li>We maintain a strict standard of cleanliness and safety for all patients.</li>
+        </ul>
+    </section>
+
+    <!-- Departments Section -->
+    <section id="departments" class="departments">
+        <div class="department">
+            <h3>General Consultation</h3>
+            <p>Expert medical advice from experienced doctors.</p>
+        </div>
+        <div class="department">
+            <h3>Surgery</h3>
+            <p>State-of-the-art facilities and surgical procedures.</p>
+        </div>
+        <div class="department">
+            <h3>Emergency Care</h3>
+            <p>Immediate care for serious medical conditions.</p>
+        </div>
+    </section>
+
+    <!-- Message from Chairman Section -->
+    <section id="message" class="message">
+        
+        <img src="https://png.pngtree.com/thumb_back/fw800/background/20231221/pngtree-women-doctor-on-blur-hospital-background-image_15519145.jpg" alt="Chairman">
+        <div class="message-text">
+            <h3>Message from Our Chairman</h3>
+            <p>Our hospital's mission is to provide high-quality care and ensure the well-being of every patient. We are committed to offering innovative treatments and compassionate service in a comfortable environment.</p>
+        </div>
+    </section>
+
+    <!-- Center of Excellence Section -->
+    <section id="center-of-excellence" class="center-of-excellence">
+       
+        <div class="card">
+            <img src="https://wallpapercave.com/wp/wp12244850.jpg" alt="Cardiology">
+            <h3>Cardiology</h3>
+            <p>Advanced heart care with world-class treatment options.</p>
+        </div>
+        <div class="card">
+            <img src="https://www.spineorthocenter.com/wp-content/uploads/2017/06/23835773_l.jpg" alt="Orthopedics">
+            <h3>Orthopedics</h3>
+            <p>Comprehensive care for bone and joint issues.</p>
+        </div>
+        <div class="card">
+            <img src="https://img.freepik.com/premium-photo/brain-image-neurology-concept-front-view-with-neuron-connections-effect-3d-illustration_717906-1230.jpg?w=2000" alt="Neurology">
+            <h3>Neurology</h3>
+            <p>Innovative treatments for brain and nervous system disorders.</p>
+        </div>
+        <div class="card">
+            <img src="https://www.toplinemd.com/womens-care-of-bradenton/wp-content/uploads/sites/37/2020/04/gynecologist-working-with-patient-in-clinic.jpg" alt="Pathology">
+            <h3>Gynecology</h3>
+    <p>Comprehensive care for women's health and wellness.</p>
+        </div>
+        <div class="card">
+            <img src="https://img.freepik.com/free-photo/mri-scan-concept-with-doctor-hospital_23-2149163320.jpg?w=2000" alt="Radiology">
+            <h3>Radiology</h3>
+            <p>Advanced imaging for better diagnostics and treatment.</p>
+        </div>
+        <div class="card">
+            <img src="https://www.aayushiclinic.com/wp-content/uploads/2015/12/pediatrics.jpg" alt="Pediatrics">
+            <h3>Pediatrics</h3>
+            <p>Specialized care for infants, children, and adolescents.</p>
+        </div>
+    </section>
+        <!-- Contact Us Section -->
+        <section id="contact" style="background: #f9f9f9; padding: 40px 10%;">
+            <h2 style="font-size: 2rem; text-align: center; margin-bottom: 20px;">Contact Us</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; text-align: center;">
+                <div style="flex: 1; min-width: 280px;">
+                    <p style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <strong>📞 Call Us:</strong><br>
+                        <a href="tel:+1234567890" style="color: #3799ef; text-decoration: none; font-size: 1.5rem;">+1 234 567 890</a>
+                    </p>
+                </div>
+                <div style="flex: 1; min-width: 280px;">
+                    <p style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <strong>📧 Email:</strong><br>
+                        <a href="mailto:info@hospital.com" style="color: #3799ef; text-decoration: none;">info@hospital.com</a>
+                    </p>
+                </div>
+                <div style="flex: 1; min-width: 280px;">
+                    <p style="font-size: 1.2rem;">
+                        <strong>📍 Address:</strong><br>
+                        1234 Health Avenue,<br>
+                        Wellness City, Country
+                    </p>
+                </div>
+            </div>
+        </section>
+    
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Our Hospital | <a href="#contact">Contact Us</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+
+        // Carousel functionality
+        let index = 0;
+        const slides = document.querySelectorAll('.carousel-container img');
+        setInterval(() => {
+            index = (index + 1) % slides.length;
+            const offset = -index * 100;
+            document.querySelector('.carousel-container').style.transform = `translateX(${offset}%)`;
+        }, 3000);
+    </script>
+</body>
+</html>

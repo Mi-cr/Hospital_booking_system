@@ -1,0 +1,144 @@
+{% extends 'nav.html' %}
+
+{% block title %}Patient Home{% endblock %}
+
+{% block content %}
+<style>
+    /* Main Layout */
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        background-color: #f1f4f8;
+        padding: 2rem 1rem;
+    }
+
+    /* Form Container */
+    .form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        margin: 40px;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    label {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    input[type="password"] {
+        padding: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    input[type="password"]:focus {
+        border-color: #3799ef;
+        outline: none;
+    }
+
+
+
+    button {
+        background-color: #3799ef;
+        color: white;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+        .main-content {
+            padding: 1rem;
+        }
+
+        .form-container {
+            padding: 2.5rem;
+        
+        }
+
+        .form-container h2 {
+            font-size: 1.6rem;
+        }
+
+        button {
+            padding: 1rem;
+        }
+    }
+</style>
+
+
+<div class="main-content">
+    <div class="form-container">
+        <h2>Reset Password</h2>
+        {% for m in messages %}
+        <h4 style="color: red; text-align: center;">{{ m }}</h4>
+        {% endfor %}
+        <form method="POST" action="{% url 'reset_password' %}">
+            {% csrf_token %}
+            
+            <!-- Current Password -->
+            <label for="current_password">Current Password</label>
+            <input type="password" id="current_password" name="current_password" placeholder="Enter your current password" required>
+            
+            <!-- New Password -->
+            <label for="new_password">New Password</label>
+            <input type="password" id="new_password" name="new_password" placeholder="Enter your new password" required>
+           
+            <!-- Confirm New Password -->
+            <label for="confirm_password">Confirm New Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your new password" required>
+            
+            <!-- Validation Message -->
+          
+            <!-- Submit Button -->
+            <button type="submit" id="reset_password_button">Reset Password</button>
+        </form>
+    </div>
+</div>
+
+<script>
+   const newPassword = document.getElementById("new_password");
+    const confirmPassword = document.getElementById("confirm_password");
+    const passwordMessage = document.getElementById("password_message");
+    const resetButton = document.getElementById("reset_password_button");
+
+    confirmPassword.addEventListener("input", () => {
+        if (newPassword.value !== confirmPassword.value) {
+            passwordMessage.style.display = "block";
+            resetButton.disabled = true;
+        } else {
+            passwordMessage.style.display = "none";
+            resetButton.disabled = false;
+        }
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Approve/Disapprove Appointments{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+
+
+        .horizontal-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3799ef;
+            padding: 1rem 1.5rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 75px;
+        }
+
+        .horizontal-navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .horizontal-navbar a:hover {
+            color: #4CAF50;
+        }
+
+        .toggle-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        .sidebar {
+    width: 250px;
+    background-color: #3799ef;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 75px;
+    left: 0;
+    height: calc(100vh - 75px);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 0; /* Remove extra padding */
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.2rem; /* Reduce padding for less space between items */
+    text-align: left;
+    transition: background-color 0.3s;
+    font-size: 0.95rem; /* Slightly smaller font for better fit */
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        overflow: hidden;
+        transition: width 0.3s ease;
+    }
+
+    .sidebar.active {
+        width: 250px;
+    }
+
+    .sidebar a {
+        padding: 0.6rem 1rem; /* Even smaller padding for small screens */
+    }
+}
+
+
+       
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        
+
+        @media (max-width: 768px) {
+            .toggle-btn {
+                display: block;
+            }
+
+            .sidebar {
+                width: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .sidebar.active {
+                width: 250px;
+            }
+
+        
+
+            .horizontal-navbar a {
+                font-size: 1rem;
+            }
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+            background-color: white;
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 20px;
+        }
+
+        table th {
+            background-color: #3799ef;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .approve-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .disapprove-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            table th, table td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .action-btn {
+                font-size: 0.9rem;
+            }
+
+            .profile-img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        main {
+    margin-left: 250px; /* Leave space for the sidebar */
+    padding: 2rem;
+    flex: 1;
+    transition: margin-left 0.3s ease; /* Smooth transition when the sidebar toggles */
+}
+
+@media (max-width: 768px) {
+    main {
+        margin-left: 0; /* Full width when the sidebar is hidden */
+    }
+}
+
+
+/* Primary (Approve) Button */
+
+
+/* Danger (Disapprove) Button */
+
+/* General Button Styling */
+.btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Success Button */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+.btn-success:disabled {
+    background-color: #94d3a2;
+    cursor: not-allowed;
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-danger:disabled {
+    background-color: #f5a3a3;
+    cursor: not-allowed;
+}
+
+/* Outline Success Button */
+.btn-outline-success {
+    background-color: transparent;
+    color: #28a745;
+    border: 2px solid #28a745;
+}
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Outline Danger Button */
+.btn-outline-danger {
+    background-color: transparent;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+}
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.05);
+}
+
+body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: rgb(241, 244, 248);
+        }
+
+       
+        footer {
+            background-color: #3799ef;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Horizontal Navbar -->
+    <div class="horizontal-navbar">
+        <div class="logo">
+            <img src="https://brandslogos.com/wp-content/uploads/images/large/apollo-hospitals-logo.png" alt="Apollo Hospital Logo" />
+            <span>Apollo Hospital</span>
+        </div>
+        <button class="toggle-btn" id="toggle-btn" aria-label="Toggle Sidebar">☰</button>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <a href="{% url 'adminhome' %}">Home</a>
+        <a href="{% url 'adddept' %}">Add Department</a>
+        <a href="{% url 'display_departments' %}">View Departments</a>
+        <a href="{% url 'addpatient' %}">Add patients</a>
+
+        <a href="{% url 'doctoraddadmin' %}">Add Doctors</a>
+        <a href="{% url 'view_patients' %}">View Patients</a>
+        <a href="{% url 'view_doctors' %}">View Doctors</a>
+        <a href="{% url 'doctor_list' %}">
+            Approve Doctors {% if pending_doctor_approvals > 0 %}({{ pending_doctor_approvals }}){% endif %}
+        </a>
+        
+        <a href="{% url 'patient_appointments' %}">
+            Approve Booking {% if pending_approvals > 0 %}({{ pending_approvals }}){% endif %}
+        </a>
+        
+        <a href="{% url 'appointment_list' %}">Patients status</a>
+        <a href="{% url 'consulted_patients_view' %}">Consulted patients</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <h1 style="text-align: center;">Approve/Disapprove Appointments</h1>
+        {% for m in messages %}
+                <h2 class="text-center text-danger pt-2" style="color: green;">{{ m }}</h2>
+            {% endfor %}
+
+<div class="table-container">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Patient id</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>  <!-- Added Appointment Time column -->
+                <th>Doctor Assigned</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if appointments %}
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</td>
+                        <td>{{ appointment.patient.patient_id }}</td>
+                        <td>{{ appointment.appointment_date }}</td>
+                        <td>{{ appointment.formatted_time }}</td> <!-- Display the formatted time -->
+                        <td>{{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }} </td>
+                        <td>{{ appointment.department.DepatmentName }}</td>
+                        <td>
+                            {% if appointment.status == "Approved" %}
+                                <button class="btn btn-success" disabled>Approved</button>
+                            {% elif appointment.status == "Disapproved" %}
+                                <button class="btn btn-danger" disabled>Disapproved</button>
+                            {% else %}
+                                <!-- Approve and Disapprove buttons for Pending status -->
+                                <a href="{% url 'approve_patient' appointment.id %}" class="btn btn-outline-success">Approve</a>
+                                <a href="{% url 'disapprove_patient' appointment.id %}" class="btn btn-outline-danger">Disapprove</a>
+                            {% endif %}
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No appointments found.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+    </main>
+                
+<footer>
+    <p>&copy; 2024 Apollo Hospital. All rights reserved.</p>
+</footer>
+
+
+    <script>
+        // Simulate fetching data from an API or database
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+    </script>
+</body>
+</html>

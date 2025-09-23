@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Appointments</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #0047ab;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            margin: 0 10px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ffc107;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .navbar-brand img {
+            height: 40px;
+            border-radius: 5px;
+        }
+        .navbar-profile img {
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .table-container {
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        footer {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px 0;
+            bottom: 0%;
+            text-align: center;
+            margin-top: 350px;
+        }
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://brandslogos.com/wp-content/uploads/images/large/apollo-hospitals-logo.png" alt="Apollo Hospital Logo">
+                Apollo Hospital
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'doctorhomepage' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'doctoappointments' %}">Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'doctor_profile_view' %}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+                <div class="d-flex align-items-center ms-3 navbar-profile flex-column text-center">
+                    <a class="navbar-brand" href="#">
+                        <img src="{{ doctor_image }}" alt="Doctor Image" class="rounded-circle">
+                    </a>
+                    <span class="mt-2 text-white">{{ first_name }} {{ last_name }}</span>
+                    <span class="mt-2 text-white">{{ department_name }}</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    
+
+
+
+
+
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Instant Appointments</h1>
+        {% for m in messages %}
+                <h2 class="text-center text-danger pt-2" style="color: green;">{{ m }}</h2>
+            {% endfor %}
+
+        <div class="table-container">
+            {% if appointments %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Patient ID</th>
+                            <th>Time</th>
+                        
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'patient_detail' appointment.patient.id %}" class="text-decoration-none text-primary">
+                                        {{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}
+                                    </a>
+                                </td>
+                                <td>{{ appointment.patient.patient_id }}</td>
+                                <td>{{ appointment.appointment_time|time:"h:i A" }}</td>
+                            
+                                <td>
+                                    {% if appointment.consulted == 1 %}
+                                        <span class="badge bg-success">Consulted</span>
+                                    {% elif appointment.consulted == 0 %}
+                                        <span class="badge bg-danger">Not Consulted</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    {% endif %}
+                                </td>
+                                
+                                <td>
+                                    <form action="{% url 'togglconsulted' appointment.id %}" method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        
+                                        <!-- Button for Marking as Consulted -->
+                                        <button type="submit" name="consulted" value="1" class="btn btn-success btn-sm" {% if appointment.consulted == 1 %}disabled{% endif %}>
+                                            Mark as Consulted
+                                        </button>
+                                    </form>
+                                </td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            {% else %}
+                <p class="text-center">No appointments found for today.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Apollo Hospital. All rights reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

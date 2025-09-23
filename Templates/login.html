@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #3799ef;
+            color: white;
+            padding: 20px 10%;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 10px 5%;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            background: #3799ef;
+            color: white;
+            border-radius: 5px;
+        }
+        .toggle-button {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        .toggle-button div {
+            width: 100%;
+            height: 3px;
+            background: #333;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 10px 0;
+                background-color: #ffffff;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .toggle-button {
+                display: flex;
+            }
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background: #3799ef;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #2877c7;
+        }
+        .footer {
+            background: #3799ef;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 0px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .footer p {
+            font-size: 1rem;
+            margin: 0;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    border-radius: 5px;
+}
+
+.logo span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+.text-success {
+        color: green;
+        font-weight: bold;
+    }
+    .text-danger {
+        color: red;
+        font-weight: bold;
+    }
+    .alert-error {
+            color: white;
+            background-color: red;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .alert-success {
+            color: white;
+            background-color: green;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Hospital</h1>
+        <p>Your health is our priority</p>
+    </header>
+
+    <nav>
+        <div class="logo">
+            <img src="https://brandslogos.com/wp-content/uploads/images/large/apollo-hospitals-logo.png" alt="Apollo Hospital Logo" />
+            <span>Apollo Hospital</span>
+        </div>
+        <div class="toggle-button" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-links">
+            
+            <a href="{% url 'homepage' %}">Home</a>
+            
+            
+            
+            <a href="{% url 'loginpage' %}">Login</a>
+            <a href="{% url 'patientsignup' %}">Patient register</a>
+            <a href="{% url 'doctorsignup' %}">Doctor register</a>
+           
+        
+        
+            
+
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>Login</h2>
+        {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                    <div class="{% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+        <form action="{% url 'login1' %}" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 appolo Hospital | <a href="#contact">Contact Us</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

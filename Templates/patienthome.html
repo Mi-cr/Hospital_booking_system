@@ -1,0 +1,193 @@
+{% extends 'nav.html' %}
+
+{% block title %}Patient Home{% endblock %}
+
+{% block content %}
+<style>
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Carousel Styling */
+  .carousel-container {
+    position: relative;
+    max-width: 100%;
+    margin: 20px auto 40px; /* Center align carousel with spacing */
+    overflow: hidden;
+  }
+
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .carousel-navigation {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .carousel-nav-btn {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+
+  .carousel-nav-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Blog Section Styling */
+  .blogs-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 40px;
+  }
+
+  .blogs-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .blogs-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .blog-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    width: calc(33.33% - 20px);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px; /* Add margin to create space below the card */
+}
+
+
+  .blog-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .blog-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .blog-card h3 {
+    margin: 15px 0 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: #333;
+  }
+
+  .blog-card p {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #555;
+    text-align: center;
+  }
+
+  .blog-card a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    margin-top: auto;
+  }
+
+  .blog-card a:hover {
+    text-decoration: underline;
+  }
+
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .blogs-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .blog-card {
+      width: 90%;
+    }
+  }
+</style>
+
+<!-- Carousel Section -->
+<div class="carousel-container">
+  <div class="carousel">
+    <img src="https://wallpapercave.com/wp/wp2219714.jpg" alt="Image 1">
+    <img src="https://mylearn.une.edu.au/pluginfile.php/4731430/course/overviewfiles/HSNS376576.jpg" alt="Image 2">
+    <img src="https://my1healthstorage.blob.core.windows.net/my1health/blogs/TDnXkaEnAT5fdRyoUUh9afZ4wyKNIs211naCeaVw.jpg" alt="Image 3">
+  </div>
+  <div class="carousel-navigation">
+    <button class="carousel-nav-btn" onclick="moveCarousel(-1)">&#10094;</button>
+    <button class="carousel-nav-btn" onclick="moveCarousel(1)">&#10095;</button>
+  </div>
+</div>
+
+<!-- Recent Blogs Section -->
+<div class="blogs-section">
+  <h2>Recent Blogs</h2>
+  <div class="blogs-container">
+    <div class="blog-card">
+      <img src="https://wallpaperaccess.com/full/1314893.jpg" alt="Health Tips">
+      <h3>Health Tips for 2024</h3>
+      <p>Discover the latest health tips to keep you healthy and fit throughout the year.</p>
+      <a href="#"></a>
+    </div>
+    <div class="blog-card">
+      <img src="https://png.pngtree.com/background/20230607/original/pngtree-stethoscope-and-medical-records-are-placed-on-a-sheet-picture-image_2903577.jpg" alt="Medical Records">
+      <h3>Understanding Your Medical Records</h3>
+      <p>Learn how to interpret your medical records and take charge of your health.</p>
+      <a href="#"></a>
+    </div>
+    <div class="blog-card">
+      <img src="https://tse1.mm.bing.net/th?id=OIP.2oSxjd5S9bxV3GBxvzkMxwHaEH&pid=Api&P=0&h=180" alt="Regular Checkups">
+      <h3>The Benefits of Regular Checkups</h3>
+      <p>Why regular checkups are important and how they can help prevent major health issues.</p>
+      <a href="#"></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // JavaScript for Carousel functionality
+  let currentIndex = 0;
+
+  function moveCarousel(direction) {
+    const carousel = document.querySelector('.carousel');
+    const images = document.querySelectorAll('.carousel img');
+    const totalImages = images.length;
+
+    currentIndex = (currentIndex + direction + totalImages) % totalImages;
+
+    const offset = -currentIndex * 100;
+    carousel.style.transform = `translateX(${offset}%)`;
+  }
+</script>
+{% endblock %}

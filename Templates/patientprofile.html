@@ -1,0 +1,134 @@
+{% extends 'nav.html' %}
+
+{% block title %}Patient Card{% endblock %}
+
+{% block content %}
+<style>
+   
+    /* Main container styling */
+    .patient-card-container {
+        max-width: 350px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+        margin-top: 100px;
+    }
+
+    /* Profile Image styling */
+    .patient-card-container img {
+        display: block;
+        margin: 0 auto 15px auto;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+    }
+
+    /* Title Styling */
+    .patient-card-container h3 {
+        text-align: center;
+        font-size: 1.6rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    /* Patient Details Section */
+    .patient-details {
+        margin-top: 10px;
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .patient-details p {
+        margin: 5px 0;
+        font-weight: 500;
+    }
+
+    .patient-details span {
+        font-weight: 300;
+        color: #555;
+    }
+
+    /* Error message styling */
+    .error-message {
+        text-align: center;
+        color: #d9534f;
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+
+    /* Success message styling */
+    .success-message {
+        color: #5cb85c;
+        font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    /* Edit Button */
+    .btn-edit {
+        display: block;
+        margin-top: 20px;
+        background-color: #0047ab;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-edit:hover {
+        background-color: #00368c;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .patient-card-container {
+            padding: 15px;
+            max-width: 90%;
+        }
+
+        .patient-card-container img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .patient-details {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+
+<div class="container">
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% else %}
+        {% for m in messages %}
+            <p class="success-message">{{ m }}</p>
+        {% endfor %}
+        <div class="patient-card-container">
+            <img src="{{ patient.image.url }}" 
+                 alt="Patient Image" 
+                 onerror="this.src='/static/images/default-user.png';">
+            <h3>{{ patient.user.first_name }} {{ patient.user.last_name }}</h3>
+
+            <div class="patient-details">
+                <p><strong>Username:</strong> <span>{{ patient.user.username }}</span></p>
+                <p><strong>Email:</strong> <span>{{ patient.user.email }}</span></p>
+                <p><strong>Gender:</strong> <span>{{ patient.Gender|title }}</span></p>
+                <p><strong>Age:</strong> <span>{{ patient.age }}</span></p>
+                <p><strong>Address:</strong> <span>{{ patient.address }}</span></p>
+                <p><strong>Contact Number:</strong> <span>{{ patient.contact }}</span></p>
+            </div>
+
+            <a href="{% url 'display_edit_page' %}" class="btn-edit">
+                Edit Profile
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

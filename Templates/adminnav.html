@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}adminnav{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: rgb(241, 244, 248);
+        }
+
+        /* Horizontal Navbar Styles */
+        .horizontal-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3799ef;
+            padding: 1rem 1.5rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 75px;
+        }
+
+        .horizontal-navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .horizontal-navbar a:hover {
+            color: #4CAF50;
+        }
+
+        .toggle-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #3799ef;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 1rem;
+            position: fixed;
+            top: 75px;
+            left: 0;
+            height: calc(100vh - 75px);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .toggle-btn {
+                display: block;
+            }
+
+            .sidebar {
+                width: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .sidebar.active {
+                width: 250px;
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #3799ef;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Horizontal Navbar -->
+    <div class="horizontal-navbar">
+        <div class="logo">
+            <img src="https://brandslogos.com/wp-content/uploads/images/large/apollo-hospitals-logo.png" alt="Apollo Hospital Logo" />
+            <span>Apollo Hospital</span>
+        </div>
+        <button class="toggle-btn" id="toggle-btn" aria-label="Toggle Sidebar">☰</button>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <a href="{% url 'adminhome' %}">Home</a>
+        <a href="{% url 'adddept' %}">Add Patients</a>
+        <a href="">Add Department</a>
+        <a href="">Add Doctors</a>
+        <a href="">View Patients</a>
+        <a href="">View Doctors</a>
+        <a href="">Approve Doctors</a>
+        <a href="">Approve Booking</a>
+        <a href="">Logout</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Apollo Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
